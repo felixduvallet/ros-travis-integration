@@ -8,6 +8,12 @@ cache:
 language:
   - python
 
+# Allows the python virtualenv to use apt-get installed packages, which is
+# essential (as ROS recommends this and pip doesn't seem to contain all
+# packages, or contains them with errors).
+virtualenv:
+    system_site_packages: true
+
 # Install system dependencies, namely ROS:
 before_install:
   # Define some config vars
