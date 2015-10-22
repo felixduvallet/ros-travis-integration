@@ -43,6 +43,7 @@ script:
   - export | grep PYTHON
   - dpkg -L python-catkin-pkg
   - python -c 'import catkin_pkg'
+  - python -c 'import sys; print(sys.path)'
   - cd ~/catkin_ws
   - catkin_make -j 2
 
