@@ -41,7 +41,7 @@ script:
   # Debug stuff
   - export | grep ROS
   - export | grep PYTHON
-#  - dpkg -L python-catkin-pkg
+  - dpkg -L python-catkin-pkg
   - python -c 'import catkin_pkg'
   - cd ~/catkin_ws
   - catkin_make -j 2
