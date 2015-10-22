@@ -1,9 +1,9 @@
 sudo: required
 
-# dist: trusty  # Needs to be feature-flagged?
+dist: trusty  # Needs to be feature-flagged?
 
-#cache:
-#  - apt
+cache:
+  - apt
 
 language:
   - cpp
