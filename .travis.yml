@@ -38,6 +38,10 @@ before_install:
 
 # Build code here.
 script:
+  # Debug stuff
+  - export | grep ROS
+  - export | grep PYTHON
+  - python -c 'import catkin_pkg'
   - cd ~/catkin_ws
   - catkin_make -j 2
 
