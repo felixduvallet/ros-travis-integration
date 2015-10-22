@@ -28,6 +28,9 @@ before_install:
   # Install ROS
   - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros ros-$ROS_DISTRO-rospy ros-$ROS_DISTRO-rostest
   - source /opt/ros/$ROS_DISTRO/setup.bash
+  # Setup for rosdep
+  - sudo rosdep init
+  - rosdep update
 
 # Set up catkin workspace to have the source code.
 # install:
@@ -36,7 +39,10 @@ before_install:
   - catkin_init_workspace
   - ln -s $CI_SOURCE_PATH . # Link the repo we are testing to the new workspace
 
-# before_script:
+before_script:
+  # Install all ROS dependencies available as ROS packages.
+  - cd ~/catkin_ws
+  - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 
 # Build code here.
 script:
