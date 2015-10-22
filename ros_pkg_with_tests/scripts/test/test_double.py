@@ -9,7 +9,7 @@ from scripts.double import double
 class TestCase(unittest.TestCase):
 
     def test_four(self):
-        ret = double(2)
+        ret = double(4)
         self.assertEqual(8, ret)
 
     def test_two(self):
