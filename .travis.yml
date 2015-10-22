@@ -20,11 +20,11 @@ before_install:
 #  - echo "Installing ROS distro $ROS_DISTRO for Ubuntu $ROS_CI_DESKTOP"
   - sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
   - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
-  - sudo apt-get update -qq
+  - sudo apt-get update
   # Debugging
   - apt-cache search ros-$ROS_DISTRO-ros
   # Install ROS
-  - sudo apt-get install -qq -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros ros-$ROS_DISTRO-rospy
+  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros ros-$ROS_DISTRO-rospy
   - source /opt/ros/$ROS_DISTRO/setup.bash
 
 # Set up catkin workspace
