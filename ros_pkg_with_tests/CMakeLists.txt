@@ -107,14 +107,12 @@ catkin_package(
 ## Build ##
 ###########
 
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(src)
 
 ## Declare a C++ library
-# add_library(ros_pkg_with_tests
-#   src/${PROJECT_NAME}/ros_pkg_with_tests.cpp
-# )
+add_library(square
+  src/square.cpp
+)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -129,10 +127,10 @@ catkin_package(
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_ros_pkg_with_tests.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+catkin_add_gtest(${PROJECT_NAME}-test src/test/test_square.cpp)
+if(TARGET ${PROJECT_NAME}-test)
+  target_link_libraries(${PROJECT_NAME}-test square)
+endif()
 
 ## Add folders to be run by python nosetests
 catkin_add_nosetests(scripts/test)
