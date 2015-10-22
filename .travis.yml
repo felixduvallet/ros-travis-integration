@@ -42,6 +42,7 @@ before_install:
 script:
   - cd ~/catkin_ws
   - catkin_make
+  - catkin_make run_tests
 
 
 # NOTE: Build lifecycle on Travis.ci is something like this:
