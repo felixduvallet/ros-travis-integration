@@ -26,7 +26,7 @@ before_install:
   - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
   - sudo apt-get update -qq
   # Install ROS
-  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros ros-$ROS_DISTRO-rospy
+  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros ros-$ROS_DISTRO-rospy ros-$ROS_DISTRO-rostest
   - source /opt/ros/$ROS_DISTRO/setup.bash
 
 # Set up catkin workspace to have the source code.
@@ -42,7 +42,9 @@ before_install:
 script:
   - cd ~/catkin_ws
   - catkin_make
-  - catkin_make run_tests
+  # Testing: Use both run_tests (to see the output) and test (to error out).
+  - catkin_make run_tests  # This always returns 0.
+  - catkin_make test  # This will return non-zero if a test fails.
 
 
 # NOTE: Build lifecycle on Travis.ci is something like this:
