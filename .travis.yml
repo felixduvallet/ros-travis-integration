@@ -6,7 +6,7 @@ cache:
   - apt
 
 language:
-  - cpp
+  - python
 
 # Install system dependencies, namely ROS:
 before_install:
@@ -41,6 +41,7 @@ script:
   # Debug stuff
   - export | grep ROS
   - export | grep PYTHON
+#  - dpkg -L python-catkin-pkg
   - python -c 'import catkin_pkg'
   - cd ~/catkin_ws
   - catkin_make -j 2
