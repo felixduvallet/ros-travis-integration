@@ -3,6 +3,8 @@
 
 #include <sstream>
 
+fail_compile_here
+
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
  */
