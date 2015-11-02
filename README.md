@@ -17,7 +17,9 @@ To enable Travis continuous integration for your ROS package, you must copy two
 files to the *root* of your repository:
  - .travis.yml: The script that tells Travis CI what to build.
  - dependencies.rosinstall: A wstool-generated list of source dependencies
-   (optional)
+   (optional).
+ - catkin.options: Contents of this file are passed as arguments to catkin_make,
+   for example package blacklists (optional).
 
 Additionally, you must log on to travis-ci and turn on continuous integration
 for the repository:
@@ -52,11 +54,18 @@ add package dependencies directly to the .travis.yml file.
 # ROS variables:
 
 There are two variables you may want to change:
-  - ROS_DISTRO (default is indigo). Note that packages must be available for
+  - ROS_DISTRO (default is indigo): Note that packages must be available for
     ubuntu 14.04 trusty.
-  - ROSINSTALL_FILE (default is dependencies.rosinstall inside the repo
-    root). This should list all necessary repositories in wstool format (see
-    the ros wiki). If the file does not exists then nothing happens.
+  - ROSINSTALL_FILE (default is dependencies.rosinstall in repo): This file
+    list all necessary repositories in wstool format (see the ros wiki). If the
+    file does not exists then nothing happens.
+  - CATKIN_OPTIONS (default is catkin.options in repo): File **whose contents**
+    specify the options passed to catkin_make. If this file does not exist,
+    catkin_make is called without options. For example, you can have catkin
+    *not* build several packages by putting this inside the file:
+
+        -DCATKIN_BLACKLIST_PACKAGES=pkg_a;pkg_b
+
 
 # Private repositories:
 
