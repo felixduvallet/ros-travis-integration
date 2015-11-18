@@ -48,8 +48,12 @@ We handle two types of package dependencies:
   - dependencies that must be checked out from source. These are handled by
     'wstool', and should be listed in a file named dependencies.rosinstall.
 
-Note: All dependencies should be handled in one of these fashions; do **not**
-add package dependencies directly to the .travis.yml file.
+All dependencies should be handled in one of these fashions; generally you
+should not add package dependencies directly to the .travis.yml file.
+
+For public builds (i.e. when using travis-ci.org), `wstool` dependencies should
+use a *public* access link (for instance, the https github address instead of
+ssh). Otherwise you will get a "Permission denied (publickey)" error.
 
 # ROS variables:
 
