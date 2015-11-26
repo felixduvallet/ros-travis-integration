@@ -9,7 +9,6 @@ In addition, this repository contains several example (trivial) ROS packages
 that served as a development sandbox.
 
 [![Build Status](https://travis-ci.org/felixduvallet/ros-travis-integration.svg?branch=master)](https://travis-ci.org/felixduvallet/ros-travis-integration)
-[![Code Health](https://landscape.io/github/felixduvallet/ros-travis-integration/master/landscape.svg?style=flat)](https://landscape.io/github/felixduvallet/ros-travis-integration/master)
 
 # Installation instructions
 
