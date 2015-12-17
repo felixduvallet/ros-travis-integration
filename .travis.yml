@@ -41,16 +41,9 @@
 dist: trusty
 sudo: required
 language:
-  - python
+  - generic
 cache:
   - apt
-
-# By default travis runs all python code in a virtualenv that does not contain
-# the packages installed with apt-get. As this is essential (pip doesn't contain
-# all the necessary ROS python packages), tell travis-ci to use the system-wide
-# python packages.
-virtualenv:
-  system_site_packages: true
 
 # Configuration variables. All variables are global now, but this can be used to
 # trigger a build matrix for different ROS distributions if desired.

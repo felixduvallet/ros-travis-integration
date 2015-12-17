@@ -1,3 +1,5 @@
+import numpy as np
+
 def double(x):
     """
 
@@ -7,4 +9,4 @@ def double(x):
     :param x:
     :return:
     """
-    return 2 * x
+    return np.multiply(2, x)
