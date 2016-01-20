@@ -84,7 +84,7 @@ http://docs.travis-ci.com/user/private-dependencies/
 2. Generate a public/private key on your computer, if not done already.
 3. Add the public key (id_rsa.pub) to the machine account's github settings (see [here](https://developer.github.com/guides/managing-deploy-keys/#machine-users)).
 4. In github, make sure the machine account has read access to all the dependency repositories.
-5. In travis, add the machine account as an administrator for the repository you want to build (note: not the dependencies).
+5. In github, add the machine account as an administrator for the repository you want to build (note: not the dependencies).
 6. In travis settings for the machine user, add the *private* key (id_rsa) in the build job settings.
 
 # The example packages
