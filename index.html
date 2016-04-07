@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Travis CI for ROS packages by felixduvallet</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Travis CI for ROS packages</h1>
+          <h2>Continuous Integration for ROS packages</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/felixduvallet/ros-travis-integration/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/felixduvallet/ros-travis-integration/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/felixduvallet/ros-travis-integration" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a id="ros-package-continuous-integration-with-travis" class="anchor" href="#ros-package-continuous-integration-with-travis" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ROS package continuous integration with travis.</h1>
+
+<p>This repository contains a .travis.yml file for setting up continuous integration
+(through Travis-CI) for any ROS package.</p>
+
+<p>Improvements &amp; issues are welcome via pull requests and the issue tracker.</p>
+
+<p>In addition, this repository contains several example (trivial) ROS packages
+that serve as example packages for Travis to build and test. They also showcase
+how to correctly handle dependencies (system and source).</p>
+
+<p><a href="https://travis-ci.org/felixduvallet/ros-travis-integration"><img src="https://travis-ci.org/felixduvallet/ros-travis-integration.svg?branch=master" alt="Build Status"></a></p>
+
+<h1>
+<a id="installation-instructions" class="anchor" href="#installation-instructions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation instructions</h1>
+
+<p>To enable Travis continuous integration for your ROS package, first copy these
+files to the <em>root</em> of your repository:</p>
+
+<ul>
+<li>.travis.yml: The script that tells Travis CI what to build.</li>
+<li>dependencies.rosinstall: A wstool-generated list of source dependencies
+(optional). <strong>Update the contents with your packages.</strong>
+</li>
+<li>catkin.options: Contents of this file are passed as arguments to catkin_make,
+for example package blacklists (optional).</li>
+</ul>
+
+<p>Then, log on to travis-ci and turn on continuous integration for the repository:</p>
+
+<ul>
+<li>travis-ci.org is free for open-source repositories.</li>
+<li>travis-ci.com provides the same functionality for private repositories.</li>
+</ul>
+
+<p>From then on, any push to this repository will trigger a new Travis-ci build.</p>
+
+<h1>
+<a id="about-travis-ci" class="anchor" href="#about-travis-ci" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About Travis-CI</h1>
+
+<p>Travis provides a clean virtual machine for each build. The .travis.yml script
+installs ROS, creates a workspace, resolves all given dependencies, and sets
+environment variables (devel/setup.bash). Then, it compiles the entire ROS
+workspace (ensuring there are no compilation errors), and runs any available
+unittests. If any of the compilation/test phases fail, the build is marked as a
+failure. Otherwise, it's a clean build.</p>
+
+<p>For more information, see the Travis CI documentation:
+<a href="http://docs.travis-ci.com/">http://docs.travis-ci.com/</a></p>
+
+<h1>
+<a id="handling-dependencies" class="anchor" href="#handling-dependencies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Handling Dependencies:</h1>
+
+<p>We handle two types of package dependencies:</p>
+
+<ul>
+<li>packages (ros and otherwise) available through apt-get. These are installed
+using rosdep, based on the information in all the ROS package.xml files.</li>
+<li>dependencies that must be checked out from source. These are handled by
+'wstool', and should be listed in a file named dependencies.rosinstall.  For
+example, depdendencies.rosinstall has a source dependency on a fork of the
+pocketsphinx package (you should remove this and replace it with your
+package dependencies). You should use the <code>https</code> url (not <code>ssh</code>) to
+check out the repository.</li>
+</ul>
+
+<p>Note that any packages located inside your catkin workspace will take
+precendence over the apt-get package (this allows you to use the cutting-edge
+version of a package directly from github instead of what's available via
+rosdep).</p>
+
+<p>All dependencies should be handled in one of these fashions; you should not add
+package dependencies directly to the .travis.yml file.</p>
+
+<p>For public builds (i.e. when using travis-ci.org), <code>wstool</code> dependencies should
+use a <em>public</em> access link (for instance, the https github address instead of
+ssh). Otherwise you will get a "Permission denied (publickey)" error.</p>
+
+<h1>
+<a id="ros-variables" class="anchor" href="#ros-variables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ROS variables:</h1>
+
+<p>There are two variables you may want to change:</p>
+
+<ul>
+<li>ROS_DISTRO (default is indigo): Note that packages must be available for
+ubuntu 14.04 trusty.</li>
+<li>ROSINSTALL_FILE (default is dependencies.rosinstall in repo): This file
+list all necessary repositories in wstool format (see the ros wiki). If the
+file does not exists then nothing happens.</li>
+<li>
+<p>CATKIN_OPTIONS (default is catkin.options in repo): File <strong>whose contents</strong>
+specify the options passed to catkin_make. If this file does not exist,
+catkin_make is called without options. For example, you can have catkin
+<em>not</em> build several packages by putting this inside the file:</p>
+
+<pre><code>-DCATKIN_BLACKLIST_PACKAGES=pkg_a;pkg_b
+</code></pre>
+</li>
+</ul>
+
+<h1>
+<a id="private-repositories" class="anchor" href="#private-repositories" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Private repositories:</h1>
+
+<p>Travis-ci.com can build a private repository. However if your package has
+dependencies that are also private, you have to go through additional steps.</p>
+
+<p>NOTE: This very much remains work-in-progress (i.e. experimental).</p>
+
+<p>The instructions are generally listed here:
+<a href="http://docs.travis-ci.com/user/private-dependencies/">http://docs.travis-ci.com/user/private-dependencies/</a></p>
+
+<ol>
+<li>Create a machine account on github.</li>
+<li>Generate a public/private key on your computer, if not done already.</li>
+<li>Add the public key (id_rsa.pub) to the machine account's github settings (see <a href="https://developer.github.com/guides/managing-deploy-keys/#machine-users">here</a>).</li>
+<li>In github, make sure the machine account has read access to all the dependency repositories.</li>
+<li>In github, add the machine account as an administrator for the repository you want to build (note: not the dependencies).</li>
+<li>In travis settings for the machine user, add the <em>private</em> key (id_rsa) in the build job settings.</li>
+</ol>
+
+<h1>
+<a id="the-example-packages" class="anchor" href="#the-example-packages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The example packages</h1>
+
+<p>These packages start simple and get more complicated, and serve as sample
+packages to give Travis something to do. They're also examples of how to best
+handle dependencies on other packages; both checking out from source.</p>
+
+<ul>
+<li>basic_ros_pkg: Just a simple C++ node.</li>
+<li>ros_pkg_with_tests: Includes both python and C++ tests</li>
+<li>ros_pkg_with_dependencies: Has dependencies in package.xml that must be
+resolved by wstool (e.g., clone pocketsphinx from source) and rosdep (e.g.,
+audio_common_msgs using apt-get).</li>
+</ul>
+
+<p>You can look at the Travis build log to see exactly how it resolves dependencies
+and then builds the package.</p>
+        </section>
+
+        <footer>
+          Travis CI for ROS packages is maintained by <a href="https://github.com/felixduvallet">felixduvallet</a><br>
+          This page was generated by <a href="https://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
