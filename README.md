@@ -6,13 +6,14 @@ This repository contains a .travis.yml file for setting up continuous integratio
 Improvements & issues are welcome via pull requests and the issue tracker.
 
 In addition, this repository contains several example (trivial) ROS packages
-that served as a development sandbox.
+that serve as example packages for Travis to build and test. They also showcase 
+how to correctly handle dependencies (system and source).
 
 [![Build Status](https://travis-ci.org/felixduvallet/ros-travis-integration.svg?branch=master)](https://travis-ci.org/felixduvallet/ros-travis-integration)
 
 # Installation instructions
 
-To enable Travis continuous integration for your ROS package, you must copy two
+To enable Travis continuous integration for your ROS package, first copy these
 files to the *root* of your repository:
  - .travis.yml: The script that tells Travis CI what to build.
  - dependencies.rosinstall: A wstool-generated list of source dependencies
@@ -20,12 +21,11 @@ files to the *root* of your repository:
  - catkin.options: Contents of this file are passed as arguments to catkin_make,
    for example package blacklists (optional).
 
-Additionally, you must log on to travis-ci and turn on continuous integration
-for the repository:
+Then, log on to travis-ci and turn on continuous integration for the repository:
  - travis-ci.org is free for open-source repositories.
  - travis-ci.com provides the same functionality for private repositories.
 
-Then, any push to this repository will trigger a new Travis-ci build.
+From then on, any push to this repository will trigger a new Travis-ci build.
 
 # About Travis-CI
 
@@ -39,7 +39,7 @@ failure. Otherwise, it's a clean build.
 For more information, see the Travis CI documentation:
 http://docs.travis-ci.com/
 
-# Dependencies:
+# Handling Dependencies:
 
 We handle two types of package dependencies:
   - packages (ros and otherwise) available through apt-get. These are installed
@@ -89,8 +89,9 @@ http://docs.travis-ci.com/user/private-dependencies/
 
 # The example packages
 
-These packages start simple and get more complicated, and were primarily used to
-debug the .travis.yml file.
+These packages start simple and get more complicated, and serve as samples packages to
+give Travis something to do. They're also examples of how to best handle dependencies
+on other packages.
 
 * basic_ros_pkg: Just a simple C++ node.
 * ros_pkg_with_tests: Includes both python and C++ tests
