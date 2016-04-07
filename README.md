@@ -1,7 +1,7 @@
 # ROS package continuous integration with travis.
 
-This repository contains a .travis.yml file for setting up continuous integration
-(through Travis-CI) for any ROS package.
+This repository contains a [.travis.yml](https://github.com/felixduvallet/ros-travis-integration/blob/master/.travis.yml)
+file for setting up continuous integration (through Travis-CI) for any ROS package.
 
 Improvements & issues are welcome via pull requests and the issue tracker.
 
@@ -15,15 +15,15 @@ how to correctly handle dependencies (system and source).
 
 To enable Travis continuous integration for your ROS package, first copy these
 files to the *root* of your repository:
- - .travis.yml: The script that tells Travis CI what to build.
- - dependencies.rosinstall: A wstool-generated list of source dependencies
+ - [.travis.yml](https://github.com/felixduvallet/ros-travis-integration/blob/master/.travis.yml): The script that tells Travis CI what to build.
+ - [dependencies.rosinstall](https://github.com/felixduvallet/ros-travis-integration/blob/master/dependencies.rosinstall): A wstool-generated list of source dependencies
    (optional). **Update the contents with your packages.**
- - catkin.options: Contents of this file are passed as arguments to catkin_make,
+ - [catkin.options](https://github.com/felixduvallet/ros-travis-integration/blob/master/catkin.options): Contents of this file are passed as arguments to catkin_make,
    for example package blacklists (optional).
 
 Then, log on to travis-ci and turn on continuous integration for the repository:
- - travis-ci.org is free for open-source repositories.
- - travis-ci.com provides the same functionality for private repositories.
+ - [travis-ci.org](http://travis-ci.org) is free for open-source repositories.
+ - [travis-ci.com](http://travis-ci.com) provides the same functionality for private repositories (at a price).
 
 From then on, any push to this repository will trigger a new Travis-ci build.
 
@@ -36,7 +36,7 @@ workspace (ensuring there are no compilation errors), and runs any available
 unittests. If any of the compilation/test phases fail, the build is marked as a
 failure. Otherwise, it's a clean build.
 
-For more information, see the Travis CI documentation:
+For more information on Travis CI, see their documentation:
 http://docs.travis-ci.com/
 
 # Handling Dependencies:
@@ -77,7 +77,6 @@ There are two variables you may want to change:
     *not* build several packages by putting this inside the file:
 
         -DCATKIN_BLACKLIST_PACKAGES=pkg_a;pkg_b
-
 
 # Private repositories:
 
