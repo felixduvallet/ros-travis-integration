@@ -1,6 +1,9 @@
 # Generic .travis.yml file for running continuous integration on Travis-CI with
 # any ROS package.
-# https://github.com/felixduvallet/ros-travis-integration
+#
+# Available here:
+#   - http://felixduvallet.github.io/ros-travis-integration
+#   - https://github.com/felixduvallet/ros-travis-integration
 #
 # This installs ROS on a clean Travis-CI virtual machine, creates a ROS
 # workspace, resolves all listed dependencies, and sets environment variables
