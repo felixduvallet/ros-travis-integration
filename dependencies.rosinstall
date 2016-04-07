@@ -1,0 +1,3 @@
+- git:
+    local-name: pocketsphinx
+    uri: git@github.com:felixduvallet/pocketsphinx.git
