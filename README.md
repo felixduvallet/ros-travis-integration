@@ -6,7 +6,7 @@ This repository contains a .travis.yml file for setting up continuous integratio
 Improvements & issues are welcome via pull requests and the issue tracker.
 
 In addition, this repository contains several example (trivial) ROS packages
-that serve as example packages for Travis to build and test. They also showcase 
+that serve as example packages for Travis to build and test. They also showcase
 how to correctly handle dependencies (system and source).
 
 [![Build Status](https://travis-ci.org/felixduvallet/ros-travis-integration.svg?branch=master)](https://travis-ci.org/felixduvallet/ros-travis-integration)
@@ -17,7 +17,7 @@ To enable Travis continuous integration for your ROS package, first copy these
 files to the *root* of your repository:
  - .travis.yml: The script that tells Travis CI what to build.
  - dependencies.rosinstall: A wstool-generated list of source dependencies
-   (optional).
+   (optional). **Update the contents with your packages.**
  - catkin.options: Contents of this file are passed as arguments to catkin_make,
    for example package blacklists (optional).
 
@@ -45,10 +45,19 @@ We handle two types of package dependencies:
   - packages (ros and otherwise) available through apt-get. These are installed
     using rosdep, based on the information in all the ROS package.xml files.
   - dependencies that must be checked out from source. These are handled by
-    'wstool', and should be listed in a file named dependencies.rosinstall.
+    'wstool', and should be listed in a file named dependencies.rosinstall.  For
+    example, depdendencies.rosinstall has a source dependency on a fork of the
+    pocketsphinx package (you should remove this and replace it with your
+    package dependencies). You should use the `https` url (not `ssh`) to
+    check out the repository.
 
-All dependencies should be handled in one of these fashions; generally you
-should not add package dependencies directly to the .travis.yml file.
+Note that any packages located inside your catkin workspace will take
+precendence over the apt-get package (this allows you to use the cutting-edge
+version of a package directly from github instead of what's available via
+rosdep).
+
+All dependencies should be handled in one of these fashions; you should not add
+package dependencies directly to the .travis.yml file.
 
 For public builds (i.e. when using travis-ci.org), `wstool` dependencies should
 use a *public* access link (for instance, the https github address instead of
@@ -89,10 +98,15 @@ http://docs.travis-ci.com/user/private-dependencies/
 
 # The example packages
 
-These packages start simple and get more complicated, and serve as samples packages to
-give Travis something to do. They're also examples of how to best handle dependencies
-on other packages.
+These packages start simple and get more complicated, and serve as sample
+packages to give Travis something to do. They're also examples of how to best
+handle dependencies on other packages; both checking out from source.
 
 * basic_ros_pkg: Just a simple C++ node.
 * ros_pkg_with_tests: Includes both python and C++ tests
-* ros_pkg_with_dependencies: Has dependencies in package.xml that must be resolved by rosdep.
+* ros_pkg_with_dependencies: Has dependencies in package.xml that must be
+  resolved by wstool (e.g., clone pocketsphinx from source) and rosdep (e.g.,
+  audio_common_msgs using apt-get).
+
+You can look at the Travis build log to see exactly how it resolves dependencies
+and then builds the package.
