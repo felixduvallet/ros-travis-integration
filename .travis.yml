@@ -1,4 +1,4 @@
-# Generic .travis.yml file for running continuous integration on Travis-CI with
+# Generic .travis.yml file for running continuous integration on Travis-CI for
 # any ROS package.
 #
 # Available here:
