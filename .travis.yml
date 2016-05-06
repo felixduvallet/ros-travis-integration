@@ -109,7 +109,6 @@ before_script:
 # returns non-zero when a test fails (which notifies Travis the build
 # failed). This is why we run both.
 script:
+  - source /opt/ros/$ROS_DISTRO/setup.bash
   - cd ~/catkin_ws
-  - catkin_make $( [ -f $CATKIN_OPTIONS ] && cat $CATKIN_OPTIONS ) && \
-    catkin_make run_tests && \
-    catkin_make test
+  - catkin_make $( [ -f $CATKIN_OPTIONS ] && cat $CATKIN_OPTIONS ) && catkin_make run_tests && catkin_make test
