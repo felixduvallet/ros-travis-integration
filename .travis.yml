@@ -99,11 +99,17 @@ before_script:
   - cd ~/catkin_ws
   - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 
-# Compile and test. If the CATKIN_OPTIONS file exists, use it as an argument to
-# catkin_make.
+# Compile and test (fail if any step fails). If the CATKIN_OPTIONS file exists,
+# use it as an argument to catkin_make, for example to blacklist certain
+# packages.
+#
+# NOTE on testing: `catkin_make run_tests` will show the output of the tests
+# (gtest, nosetest, etc..) but always returns 0 (success) even if a test
+# fails. On the other hand, `catkin_make test` aggregates all results, but
+# returns non-zero when a test fails (which notifies Travis the build
+# failed). This is why we run both.
 script:
   - cd ~/catkin_ws
-  - catkin_make $( [ -f $CATKIN_OPTIONS ] && cat $CATKIN_OPTIONS )
-  # Testing: Use both run_tests (to see the output) and test (to error out).
-  - catkin_make run_tests  # This always returns 0, but looks pretty.
-  - catkin_make test  # This will return non-zero if a test fails.
+  - catkin_make $( [ -f $CATKIN_OPTIONS ] && cat $CATKIN_OPTIONS ) && \
+    catkin_make run_tests && \
+    catkin_make test
