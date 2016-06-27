@@ -4,6 +4,7 @@ This repository contains a [.travis.yml](https://github.com/felixduvallet/ros-tr
 file for setting up continuous integration (through Travis-CI) for any ROS package.
 
 Improvements & issues are welcome via pull requests and the issue tracker.
+If you find this Travis file helpful, please star this repository!
 
 In addition, this repository contains several example (trivial) ROS packages
 that serve as example packages for Travis to build and test. They also showcase
