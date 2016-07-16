@@ -68,7 +68,7 @@ ssh). Otherwise you will get a "Permission denied (publickey)" error.
 
 There are two variables you may want to change:
   - ROS_DISTRO (default is indigo): Note that packages must be available for
-    ubuntu 14.04 trusty.
+    ubuntu 14.04 trusty, so kinetic is not supported at this time.
   - ROSINSTALL_FILE (default is dependencies.rosinstall in repo): This file
     list all necessary repositories in wstool format (see the ros wiki). If the
     file does not exists then nothing happens.
