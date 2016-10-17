@@ -43,32 +43,40 @@ http://docs.travis-ci.com/
 # Handling Dependencies:
 
 We handle two types of package dependencies:
-  - packages (ros and otherwise) available through apt-get. These are installed
-    using rosdep, based on the information in all the ROS package.xml files.
-  - dependencies that must be checked out from source. These are handled by
-    'wstool', and should be listed in a file named dependencies.rosinstall.  For
-    example, depdendencies.rosinstall has a source dependency on a fork of the
-    pocketsphinx package (you should remove this and replace it with your
-    package dependencies). You should use the `https` url (not `ssh`) to
-    check out the repository.
+
+  - system dependencies that can be installed using `rosdep`, including other
+    ROS packages and system libraries. These get installed using apt-get.
+  - package dependencies that must be checked out from source. These are handled by
+    `wstool`, and should be listed in a file named dependencies.rosinstall.
+
+All dependencies should be handled in one of these fashions; you should not add
+package dependencies directly to the .travis.yml file.
+If you are missing a package, it's most likely that you haven't defined the
+dependency in package.xml.
 
 Note that any packages located inside your catkin workspace will take
 precendence over the apt-get package (this allows you to use the cutting-edge
 version of a package directly from github instead of what's available via
 rosdep).
 
-All dependencies should be handled in one of these fashions; you should not add
-package dependencies directly to the .travis.yml file.
-
 For public builds (i.e. when using travis-ci.org), `wstool` dependencies should
 use a *public* access link (for instance, the https github address instead of
 ssh). Otherwise you will get a "Permission denied (publickey)" error.
 
+The `ros_pkg_with_dependencies` **example package** showcases both types of
+dependencies: there's a rosdep dependency on audio_common_msgs, so that package
+(and its dependencies) will get installed using `rosdep` (i.e. `apt-get`).
+There is also a public repository link inside `dependencies.rosinstall`, so
+Travis will clone the repository into the workspace before building anything.
+Make sure to remove the contents of dependencies.rosinstall and add your
+package's source dependencies instead.
+
 # ROS variables:
 
 There are two variables you may want to change:
-  - ROS_DISTRO (default is indigo): Note that packages must be available for
-    ubuntu 14.04 trusty, so kinetic is not supported at this time.
+
+  - ROS_DISTRO (indigo or jade, default is indigo): Note that packages must be
+    available for ubuntu 14.04 trusty, so kinetic is not supported at this time.
   - ROSINSTALL_FILE (default is dependencies.rosinstall in repo): This file
     list all necessary repositories in wstool format (see the ros wiki). If the
     file does not exists then nothing happens.
@@ -84,8 +92,6 @@ There are two variables you may want to change:
 Travis-ci.com can build a private repository. However if your package has
 dependencies that are also private, you have to go through additional steps.
 
-NOTE: This very much remains work-in-progress (i.e. experimental).
-
 The instructions are generally listed here:
 http://docs.travis-ci.com/user/private-dependencies/
 
@@ -95,6 +101,8 @@ http://docs.travis-ci.com/user/private-dependencies/
 4. In github, make sure the machine account has read access to all the dependency repositories.
 5. In github, add the machine account as an administrator for the repository you want to build (note: not the dependencies).
 6. In travis settings for the machine user, add the *private* key (id_rsa) in the build job settings.
+
+NOTE: This very somewhat experimental.
 
 # The example packages
 
