@@ -4,7 +4,7 @@
 TEST(TestSuite, squareTwo)
 {
   const double ret = square(2);
-  ASSERT_EQ(4, ret);
+  ASSERT_EQ(5, ret);
 }
 
 TEST(TestSuite, squareFour)
