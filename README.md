@@ -42,34 +42,35 @@ http://docs.travis-ci.com/
 
 # Handling Dependencies:
 
-We handle two types of package dependencies:
+We handle two types of package dependencies specified in the package manifest:
 
   - system dependencies that can be installed using `rosdep`, including other
-    ROS packages and system libraries. These get installed using apt-get.
+    ROS packages and system libraries. These dependencies must be known to
+    `rosdistro` and get installed using apt-get.
   - package dependencies that must be checked out from source. These are handled by
     `wstool`, and should be listed in a file named dependencies.rosinstall.
 
-All dependencies should be handled in one of these fashions; you should not add
-package dependencies directly to the .travis.yml file.
+All dependencies should be handled in one of these fashions; in general you
+should not install packages directly to the .travis.yml file.
 If you are missing a package, it's most likely that you haven't defined the
 dependency in package.xml.
 
 Note that any packages located inside your catkin workspace will take
-precendence over the apt-get package (this allows you to use the cutting-edge
-version of a package directly from github instead of what's available via
-rosdep).
+precendence over the rosdistro system-wide package.
+Tthis allows you to use the cutting-edge version of a package directly from
+source.
 
 For public builds (i.e. when using travis-ci.org), `wstool` dependencies should
 use a *public* access link (for instance, the https github address instead of
 ssh). Otherwise you will get a "Permission denied (publickey)" error.
 
-The `ros_pkg_with_dependencies` **example package** showcases both types of
-dependencies: there's a rosdep dependency on audio_common_msgs, so that package
-(and its dependencies) will get installed using `rosdep` (i.e. `apt-get`).
-There is also a public repository link inside `dependencies.rosinstall`, so
-Travis will clone the repository into the workspace before building anything.
-Make sure to remove the contents of dependencies.rosinstall and add your
-package's source dependencies instead.
+The example package `ros_pkg_with_dependencies` showcases both types of
+dependencies: there's a dependency on audio_common_msgs (known to rosdistro), so
+that package will get installed using `rosdep`. There is also a public
+repository link inside `dependencies.rosinstall`, so Travis will clone the
+repository into the workspace before building anything.  Make building your own
+package, make sure to remove the contents of dependencies.rosinstall and add
+your package's source dependencies instead.
 
 # ROS variables:
 
@@ -113,8 +114,8 @@ handle dependencies on other packages; both checking out from source.
 * basic_ros_pkg: Just a simple C++ node.
 * ros_pkg_with_tests: Includes both python and C++ tests
 * ros_pkg_with_dependencies: Has dependencies in package.xml that must be
-  resolved by wstool (e.g., clone pocketsphinx from source) and rosdep (e.g.,
-  audio_common_msgs using apt-get).
+  resolved by wstool (in this case, clone pocketsphinx from source) and rosdep
+  (in this case, install audio_common_msgs using rosdep).
 
 You can look at the Travis build log to see exactly how it resolves dependencies
 and then builds the package.
