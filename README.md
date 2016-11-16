@@ -57,7 +57,7 @@ dependency in package.xml.
 
 Note that any packages located inside your catkin workspace will take
 precendence over the rosdistro system-wide package.
-Tthis allows you to use the cutting-edge version of a package directly from
+This allows you to use the cutting-edge version of a package directly from
 source.
 
 For public builds (i.e. when using travis-ci.org), `wstool` dependencies should
