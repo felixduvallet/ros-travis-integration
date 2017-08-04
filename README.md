@@ -1,5 +1,7 @@
 # ROS package continuous integration with travis.
 
+SOME NEW FEATURE!
+
 This repository contains a [.travis.yml](https://github.com/felixduvallet/ros-travis-integration/blob/master/.travis.yml)
 file for setting up continuous integration (through Travis-CI) for any ROS package.
 
