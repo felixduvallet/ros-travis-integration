@@ -1,5 +1,7 @@
 # ROS package continuous integration with travis.
 
+SOME NEW FEATURE!
+
 This repository contains a [.travis.yml](https://github.com/felixduvallet/ros-travis-integration/blob/master/.travis.yml)
 file for setting up continuous integration (through Travis-CI) for any ROS package.
 
@@ -10,7 +12,7 @@ In addition, this repository contains several example (trivial) ROS packages
 that serve as example packages for Travis to build and test. They also showcase
 how to correctly handle dependencies (system and source).
 
-[![Build Status](https://travis-ci.org/felixduvallet/ros-travis-integration.svg?branch=master)](https://travis-ci.org/felixduvallet/ros-travis-integration)
+[![Build Status](https://travis-ci.org/blackpc/ros-travis-integration.svg?branch=master)](https://travis-ci.org/blackpc/ros-travis-integration)
 
 # Installation instructions
 
