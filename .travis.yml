@@ -4,6 +4,7 @@
 # Available here:
 #   - http://felixduvallet.github.io/ros-travis-integration
 #   - https://github.com/felixduvallet/ros-travis-integration
+#   - https://github.com/gsilano/ros-travis-integration
 #
 # This installs ROS on a clean Travis-CI virtual machine, creates a ROS
 # workspace, resolves all listed dependencies, and sets environment variables
@@ -19,8 +20,8 @@
 #     `wstool`, and should be listed in a file named dependencies.rosinstall.
 #
 # There are two variables you may want to change:
-#   - ROS_DISTRO (default is indigo). Note that packages must be available for
-#     ubuntu 14.04 trusty.
+#   - ROS_DISTRO (default is kinetic). Note that packages must be available for
+#     ubuntu 16.04 trusty.
 #   - ROSINSTALL_FILE (default is dependencies.rosinstall inside the repo
 #     root). This should list all necessary repositories in wstool format (see
 #     the ros wiki). If the file does not exists then nothing happens.
@@ -28,6 +29,7 @@
 # See the README.md for more information.
 #
 # Author: Felix Duvallet <felixd@gmail.com>
+# Author: Giuseppe Silano <g.silano89@gmail.com>
 
 # NOTE: The build lifecycle on Travis.ci is something like this:
 #    before_install
@@ -42,7 +44,7 @@
 
 ################################################################################
 
-# Use ubuntu trusty (14.04) with sudo privileges.
+# Use ubuntu trusty (16.04) with sudo privileges.
 os: linux
 dist: xenial
 sudo: required
@@ -70,15 +72,16 @@ env:
 # Install system dependencies, namely a very barebones ROS setup.
 before_install:
   - sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
-  - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
+  - wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
   - sudo rm /var/lib/dpkg/lock
   - sudo dpkg --configure -a
-  - sudo apt-get update -qq
-  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin
+  - sudo apt-get update
+  - sudo apt-get install ros-$ROS_DISTRO-desktop-full python-catkin-pkg python-wstool python-catkin-tools
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
   - rosdep update
+  - source /opt/ros/$ROS_DISTRO/setup.bash
 
 # Create a catkin workspace with the package under integration.
 install:
