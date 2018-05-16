@@ -4,7 +4,6 @@
 # Available here:
 #   - http://felixduvallet.github.io/ros-travis-integration
 #   - https://github.com/felixduvallet/ros-travis-integration
-#   - https://github.com/gsilano/ros-travis-integration
 #
 # This installs ROS on a clean Travis-CI virtual machine, creates a ROS
 # workspace, resolves all listed dependencies, and sets environment variables
@@ -76,7 +75,7 @@ before_install:
   - sudo rm /var/lib/dpkg/lock
   - sudo dpkg --configure -a
   - sudo apt-get update
-  - sudo apt-get install ros-$ROS_DISTRO-desktop-full python-catkin-pkg python-wstool python-catkin-tools
+  - sudo apt-get install ros-$ROS_DISTRO-catkin python-catkin-pkg python-wstool python-catkin-tools
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
@@ -88,14 +87,13 @@ install:
   - mkdir -p ~/catkin_ws/src
   - cd ~/catkin_ws/src
   - catkin_init_workspace
-  - git clone https://github.com/felixduvallet/pocketsphinx.git
   # Create the devel/setup.bash (run catkin_make with an empty workspace) and
   # source it to set the path variables.
   - cd ~/catkin_ws
   - catkin_make
   # Add the package under integration to the workspace using a symlink.
-  - echo "source ~/catkin_ws/devel/setup.bash" >> ~/.bashrc
-  - source ~/.bashrc
+  - cd ~/catkin_ws
+  - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
 
 # Compile and test (mark the build as failed if any step fails). If the
 # CATKIN_OPTIONS file exists, use it as an argument to catkin_make, for example
