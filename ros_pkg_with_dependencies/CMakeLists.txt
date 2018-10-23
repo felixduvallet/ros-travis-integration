@@ -22,7 +22,7 @@ DEPENDS system_lib
 ###########
 ## Build ##
 ###########
-
+include_directories(${catkin_INCLUDE_DIRS})
 add_executable(audio_user src/audio_user.cpp)
 target_link_libraries(audio_user ${catkin_LIBRARIES})
 add_dependencies(audio_user ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
