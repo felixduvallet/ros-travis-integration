@@ -39,7 +39,7 @@ catkin_package(
 ###########
 ## Build ##
 ###########
-
+include_directories(${catkin_INCLUDE_DIRS})
 add_executable(basic_talker src/talker.cpp)
 target_link_libraries(basic_talker ${catkin_LIBRARIES})
 add_dependencies(basic_talker ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
