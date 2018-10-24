@@ -51,6 +51,8 @@ matrix:
   include:
   - name: "ROS indigo"
     env: ROS_DISTRO=indigo
+  - name: "ROS jade"
+    env: ROS_DISTRO=jade
 
 # Configuration variables. All variables are global now, but this can be used to
 # trigger a build matrix for different ROS distributions if desired.
