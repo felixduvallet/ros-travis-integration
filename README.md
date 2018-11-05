@@ -1,4 +1,4 @@
-# ROS package continuous integration with travis.
+# ROS package continuous integration with travis (now supporting Kinetic).
 
 This repository contains a [.travis.yml](https://github.com/felixduvallet/ros-travis-integration/blob/master/.travis.yml)
 file for setting up continuous integration (through Travis-CI) for any ROS package.
@@ -73,6 +73,21 @@ repository into the workspace before building anything.
 When building your own package, make sure to remove the contents of
 dependencies.rosinstall and add your package's source dependencies instead.
 
+# Build matrix
+
+The .travis.yml defines a build matrix specifying which combinations of Ubuntu
+distribution and ROS version should be used.
+
+Currently, the list of supported pairs is:
+
+ - ROS indigo on Ubuntu trusty
+ - ROS jade on Ubuntu trusty
+ - ROS kinetic on Ubuntu xenial
+
+Note that some pairs are not possible (e.g. kinetic on trusty or indigo/jade on
+xenial). The debian packages must be available for the appropriate ubuntu
+release.
+
 # ROS variables:
 
 The .travis.yml file has some [environment
@@ -80,9 +95,6 @@ variables](https://docs.travis-ci.com/user/environment-variables/) you can
 change to customize your build: defined in the script which are used to
 parametrize the build:
 
-  - ROS_DISTRO (indigo or jade are suppored, default is indigo): Note that
-    packages must be available for ubuntu 14.04 trusty, so kinetic is not
-    supported at this time (work in progress).
   - ROSINSTALL_FILE (default is dependencies.rosinstall in repo): This file
     list all necessary repositories in wstool format (see the ros wiki). If the
     file does not exists then nothing happens.

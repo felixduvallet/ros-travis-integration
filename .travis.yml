@@ -39,20 +39,23 @@
 
 ################################################################################
 
-# Use ubuntu trusty (14.04) with sudo privileges.
-dist: trusty
 sudo: required
-language:
-  - generic
 cache:
   - apt
 
+# Build all valid Ubuntu/ROS combinations available on Travis VMs.
+language: generic
 matrix:
   include:
-  - name: "ROS indigo"
+  - name: "Trusty indigo"
+    dist: trusty
     env: ROS_DISTRO=indigo
-  - name: "ROS jade"
+  - name: "Trusty jade"
+    dist: trusty
     env: ROS_DISTRO=jade
+  - name: "Xenial kinetic"
+    dist: xenial
+    env: ROS_DISTRO=kinetic
 
 # Configuration variables. All variables are global now, but this can be used to
 # trigger a build matrix for different ROS distributions if desired.
@@ -75,7 +78,7 @@ before_install:
   - sudo apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
   - sudo apt-get update -qq
   - sudo apt-get install dpkg
-  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-catkin
+  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-ros-base
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
