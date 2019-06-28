@@ -81,10 +81,9 @@ distribution and ROS version should be used.
 Currently, the list of supported pairs is:
 
  - ROS indigo on Ubuntu trusty
- - ROS jade on Ubuntu trusty
  - ROS kinetic on Ubuntu xenial
 
-Note that some pairs are not possible (e.g. kinetic on trusty or indigo/jade on
+Note that some pairs are not possible (e.g. kinetic on trusty or indigo on
 xenial). The debian packages must be available for the appropriate ubuntu
 release.
 
