@@ -79,7 +79,7 @@ before_install:
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
-  - rosdep update --include-eol-distros
+  - rosdep update --include-eol-distros  # Support EOL distros.
 
 # Create a catkin workspace with the package under integration.
 install:
