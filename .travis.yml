@@ -39,20 +39,34 @@
 
 ################################################################################
 
-sudo: required
 cache:
   - apt
 
 # Build all valid Ubuntu/ROS combinations available on Travis VMs.
 language: generic
-matrix:
+os:
+  - linux
+
+# PYTHONPATH cannot be a global environmental variable because
+# ROS Noetic migrated from Python2 to Python3
+# A conditional global environment variable would be ideal
+jobs:
   include:
   - name: "Trusty indigo"
     dist: trusty
-    env: ROS_DISTRO=indigo
+    env:
+      - ROS_DISTRO=indigo
+      - PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages:/usr/local/lib/python2.7/dist-packages
   - name: "Xenial kinetic"
     dist: xenial
-    env: ROS_DISTRO=kinetic
+    env:
+      - ROS_DISTRO=kinetic
+      - PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages:/usr/local/lib/python2.7/dist-packages
+  - name: "Focal noetic"
+    dist: focal
+    env:
+      - ROS_DISTRO=noetic
+      - PYTHONPATH=$PYTHONPATH:/usr/lib/python3/dist-packages:/usr/local/lib/python3/dist-packages
 
 # Configuration variables. All variables are global now, but this can be used to
 # trigger a build matrix for different ROS distributions if desired.
@@ -65,17 +79,24 @@ env:
     - ROS_PARALLEL_JOBS='-j8 -l6'
     # Set the python path manually to include /usr/-/python2.7/dist-packages
     # as this is where apt-get installs python packages.
-    - PYTHONPATH=$PYTHONPATH:/usr/lib/python2.7/dist-packages:/usr/local/lib/python2.7/dist-packages
 
 ################################################################################
-
+    
 # Install system dependencies, namely a very barebones ROS setup.
 before_install:
   - sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu $ROS_CI_DESKTOP main\" > /etc/apt/sources.list.d/ros-latest.list"
   - sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
   - sudo apt-get update -qq
+  # Travis builds on Ubuntu 20.04 use an 'older' GCC, causes gtest compile error
+  - sudo apt-get install gcc --only-upgrade
   - sudo apt-get install dpkg
-  - sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-ros-base
+  # ROS Noetic migrated to Python3, hence the package name differences
+  - if [ $ROS_DISTRO == "noetic" ];
+    then
+      sudo apt-get install -y python3-catkin-pkg python3-rosdep python3-wstool ros-$ROS_DISTRO-ros-base;
+    else
+      sudo apt-get install -y python-catkin-pkg python-rosdep python-wstool ros-$ROS_DISTRO-ros-base;
+    fi
   - source /opt/ros/$ROS_DISTRO/setup.bash
   # Prepare rosdep to install dependencies.
   - sudo rosdep init
@@ -105,7 +126,7 @@ before_script:
   - wstool up
   # package depdencies: install using rosdep.
   - cd ~/catkin_ws
-  - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO
+  - rosdep install -y --from-paths src --ignore-src --rosdistro $ROS_DISTRO --os ubuntu:$ROS_CI_DESKTOP
 
 # Compile and test (mark the build as failed if any step fails). If the
 # CATKIN_OPTIONS file exists, use it as an argument to catkin_make, for example
